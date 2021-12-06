@@ -21,7 +21,7 @@ export default class Window {
       backgroundColour = 'white',
     } = {},
   ) {
-    Window.objects.findAll = this.#findAll.bind(this);
+    Window.objects.findAll = this.#findAllObjects.bind(this);
 
     this.title = document.createElement('title');
     this.title.innerHTML = title;
@@ -36,7 +36,7 @@ export default class Window {
     this.#canvas = new Canvas();
     this.#ctx = this.#canvas.getContext('2d');
 
-    document.addEventListener('mousemove', this.#mouseMove.bind(this));
+    document.addEventListener('mousemove', this.#setMousePos.bind(this));
 
     document.getElementsByTagName('body')[0].appendChild(this.#window);
     this.#window.appendChild(this.#canvas);
@@ -134,11 +134,11 @@ export default class Window {
     );
   }
 
-  #findAll(tag = '') {
+  #findAllObjects(tag = '') {
     return Array.from(Window.objects).filter((obj) => obj.tag === tag);
   }
 
-  #mouseMove(event) {
+  #setMousePos(event) {
     if (event) {
       this.mouseX = event.x;
       this.mouseY = event.y;

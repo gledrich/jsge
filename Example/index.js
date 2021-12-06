@@ -45,6 +45,11 @@ class DemoGame {
       width: 500,
       register: false,
     });
+    this.completedText.position = new Vector2(
+      window.innerWidth / 2 - this.completedText.width / 2,
+      window.innerHeight / 2 - this.completedText.height / 2,
+    );
+
     this.restartText = new Text({
       tag: 'restartText',
       colour: 'white',
@@ -57,6 +62,12 @@ class DemoGame {
         this.restart();
       },
     });
+    this.restartText.position = new Vector2(
+      this.completedText.position.x
+        + (this.completedText.width / 2 - this.restartText.width / 2),
+      this.completedText.position.y
+        + (this.completedText.height - this.restartText.height),
+    );
   }
 
   onLoad() {
@@ -101,6 +112,7 @@ class DemoGame {
       });
 
       this.game
+        // remove start screen
         .setTimeout(titleText.destroySelf.bind(titleText), 3000)
         .then(() => {
           this.gameState = 1;
@@ -108,6 +120,7 @@ class DemoGame {
           const rows = 10;
           const cols = 10;
 
+          // draw food
           for (let i = 1; i <= rows; i += 1) {
             for (let j = 1; j <= cols; j += 1) {
               const paddingHorizontal = window.innerWidth / rows;
@@ -126,6 +139,7 @@ class DemoGame {
             }
           }
 
+          // draw player
           this.player = new Rectangle({
             position: new Vector2(
               window.innerWidth / 2,
@@ -155,8 +169,10 @@ class DemoGame {
 
     // Check if game is playing
     if (this.gameState === 1) {
+      // hide mouse cursor
       this.game.cursor = 'none';
 
+      // center player around mouse pos
       this.player.position = new Vector2(
         this.game.mouseX - this.player.width / 2,
         this.game.mouseY - this.player.height / 2,
@@ -164,6 +180,7 @@ class DemoGame {
 
       food = this.game.objects.findAll('food');
 
+      // handle food + player collision
       food.forEach((pieceOfFood) => {
         if (this.player.hasCollided(pieceOfFood)) {
           pieceOfFood.destroySelf();
@@ -176,6 +193,7 @@ class DemoGame {
       }
     }
 
+    // game ended
     if (!food.length && this.gameState === 2) {
       this.player.destroySelf();
       this.game.cursor = 'pointer';
@@ -187,25 +205,13 @@ class DemoGame {
       if (!this.restartText.registered) {
         this.restartText.registerSelf();
       }
-
-      this.completedText.position = new Vector2(
-        window.innerWidth / 2 - this.completedText.width / 2,
-        window.innerHeight / 2 - this.completedText.height / 2,
-      );
-
-      this.restartText.position = new Vector2(
-        this.completedText.position.x
-          + (this.completedText.width / 2 - this.restartText.width / 2),
-        this.completedText.position.y
-          + (this.completedText.height - this.restartText.height),
-      );
     }
   }
 
   restart() {
-    this.restartText.destroySelf();
     this.gameState = 0;
     this.completedText.destroySelf();
+    this.restartText.destroySelf();
     this.player.destroySelf();
     this.onLoad();
   }
