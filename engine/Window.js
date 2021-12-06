@@ -13,7 +13,7 @@ export default class Window {
   static objects = new Set();
 
   constructor(
-    callback,
+    { onLoadCallback, updateCallback },
     {
       title = 'Example',
       width = '100%',
@@ -41,9 +41,11 @@ export default class Window {
     document.getElementsByTagName('body')[0].appendChild(this.#window);
     this.#window.appendChild(this.#canvas);
 
-    this.callback = callback;
-
-    this.#onLoad();
+    this.updateCallback = updateCallback;
+    this.onLoadCallback = () => {
+      onLoadCallback();
+      this.#onLoad();
+    };
   }
 
   #onLoad() {
@@ -64,17 +66,20 @@ export default class Window {
 
     this.fps = Math.round(1 / this.#secondsPassed);
 
-    this.callback();
-
-    this.#ctx.fillStyle = this.backgroundColour;
-    this.#ctx.fillRect(0, 0, this.#canvas.width, this.#canvas.height);
-
+    this.updateCallback();
     this.#draw();
 
     window.requestAnimationFrame(this.#update.bind(this));
   }
 
+  #setBackground() {
+    this.#ctx.fillStyle = this.backgroundColour;
+    this.#ctx.fillRect(0, 0, this.#canvas.width, this.#canvas.height);
+  }
+
   #draw() {
+    this.#setBackground();
+
     Window.#sortSet().forEach((object) => {
       if (object instanceof Text) {
         this.#drawText(object);
@@ -96,8 +101,8 @@ export default class Window {
       this.#ctx.fillRect(
         text.position.x,
         text.position.y,
-        text.fontSize * text.length,
-        text.fontSize * 2,
+        text.width,
+        text.height,
       );
     }
 
@@ -105,7 +110,11 @@ export default class Window {
     this.#ctx.fillStyle = text.colour;
     this.#ctx.textAlign = text.horizontalAlign;
     this.#ctx.textBaseline = text.verticalAlign;
-    this.#ctx.fillText(text.text, (text.fontSize * text.length) / 2, (text.fontSize * 2) / 2);
+    this.#ctx.fillText(
+      text.text,
+      text.position.x + text.width / 2,
+      text.position.y + text.height / 2,
+    );
   }
 
   #drawLine(line) {

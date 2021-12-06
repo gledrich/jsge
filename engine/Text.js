@@ -12,6 +12,8 @@ export default class Text {
     horizontalAlign = 'center', // [left, right, center, start, end]
     verticalAlign = 'middle', // [top, hanging, middle, alphabetic, ideographic, bottom]
     position = new Vector2(0, 0),
+    width,
+    height,
     zIndex = 0,
   }) {
     this.tag = tag;
@@ -20,11 +22,13 @@ export default class Text {
     this.fontSize = parseInt(fontSize, 10);
     this.font = `${fontSize}px ${font}`;
     this.text = text;
-    this.zIndex = zIndex;
     this.length = text.length;
     this.position = position;
     this.horizontalAlign = horizontalAlign;
     this.verticalAlign = verticalAlign;
+    this.width = width || this.fontSize * this.length;
+    this.height = height || this.fontSize * 2;
+    this.zIndex = zIndex;
 
     Window.registerObject(this);
   }

@@ -22,4 +22,19 @@ export default class Engine {
   get fps() {
     return this.#window.fps;
   }
+
+  get onLoad() {
+    return this.#window.onLoadCallback;
+  }
+
+  get setTimeout() {
+    return this.timeout;
+  }
+
+  async timeout(timeoutFn, time) {
+    await new Promise((resolve) => {
+      setTimeout(resolve, time);
+    });
+    timeoutFn();
+  }
 }
