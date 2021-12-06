@@ -1,4 +1,5 @@
 import Canvas from './Canvas.js';
+import Text from './Text.js';
 import Line from './Line.js';
 import Rectangle from './Rectangle.js';
 
@@ -67,21 +68,28 @@ export default class Window {
     window.requestAnimationFrame(this.#update.bind(this));
   }
 
-  static #sortSet() {
-    const arr = Array.from(Window.objects);
-    arr.sort((a, b) => a.zIndex > b.zIndex);
-    return new Set(arr);
-  }
-
   #draw() {
     Window.#sortSet().forEach((object) => {
+      if (object instanceof Text) {
+        this.#drawText(object);
+      }
+
       if (object instanceof Line) {
         this.#drawLine(object);
       }
+
       if (object instanceof Rectangle) {
         this.#drawRectangle(object);
       }
     });
+  }
+
+  #drawText(text) {
+    this.#ctx.fillStyle = 'white';
+    this.#ctx.fillRect(0, 0, 200, 100);
+    this.#ctx.font = text.font;
+    this.#ctx.fillStyle = text.colour;
+    this.#ctx.fillText(text.text, 10, 30);
   }
 
   #drawLine(line) {
@@ -118,6 +126,12 @@ export default class Window {
 
   static get mouseY() {
     return this.mouseY + this.#canvas.getBoundingClientRect().top;
+  }
+
+  static #sortSet() {
+    const arr = Array.from(Window.objects);
+    arr.sort((a, b) => a.zIndex > b.zIndex);
+    return new Set(arr);
   }
 
   static registerObject(object) {

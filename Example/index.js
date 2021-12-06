@@ -12,27 +12,26 @@ class DemoGame {
   constructor() {
     for (let i = 0; i < 10; i += 1) {
       for (let j = 0; j < 10; j += 1) {
-        new Rectangle(
-          {
-            tag: 'food',
-            position: new Vector2(
-              i * (window.innerWidth / 10),
-              j * (window.innerHeight / 10),
-            ),
-            width: 20,
-            height: 20,
-            colour: 'orange',
-          },
-        );
+        new Rectangle({
+          tag: 'food',
+          position: new Vector2(
+            i * (window.innerWidth / 10),
+            j * (window.innerHeight / 10),
+          ),
+          width: 20,
+          height: 20,
+          colour: 'orange',
+        });
       }
     }
 
-    this.player = new Rectangle(
-
-      {
-        position: new Vector2(10, 10), width: 50, height: 50, colour: 'red', zIndex: 1,
-      },
-    );
+    this.player = new Rectangle({
+      position: new Vector2(window.innerWidth / 2, window.innerHeight / 2),
+      width: 50,
+      height: 50,
+      colour: 'red',
+      zIndex: 1,
+    });
     this.player.grow = () => {
       this.player.width += 1;
       this.player.height += 1;

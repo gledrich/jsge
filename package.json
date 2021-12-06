@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "hint": "hint index.js",
-    "start": "nodemon server"
+    "start": "nodemon Example/server"
   },
   "author": "Rich <richgled25@gmail.com>",
   "license": "ISC",
@@ -14,7 +13,6 @@
     "eslint": "^8.3.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.3",
-    "hint": "^6.1.9",
     "nodemon": "^2.0.15"
   },
   "dependencies": {

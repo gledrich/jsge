@@ -3,7 +3,7 @@ import Vector2 from './Vector2.js';
 
 export default class Rectangle {
   constructor({
-    tag = '', position, width, height, colour = 'black', zIndex = 0,
+    tag = 'rect', position, width, height, colour = 'black', zIndex = 0,
   }) {
     if (!(position instanceof Vector2)) {
       throw new Error('v1 must be a Vector2!');

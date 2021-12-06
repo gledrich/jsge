@@ -2,7 +2,9 @@ import Window from './Window.js';
 import Vector2 from './Vector2.js';
 
 export default class Line {
-  constructor(v1, v2, width = 1, zIndex = 0) {
+  constructor({
+    tag = 'line', v1, v2, width = 1, zIndex = 0,
+  }) {
     if (!(v1 instanceof Vector2)) {
       throw new Error('v1 must be a Vector2!');
     }
@@ -11,6 +13,7 @@ export default class Line {
       throw new Error('v2 must be a Vector2!');
     }
 
+    this.tag = tag;
     this.width = width;
     this.x1 = v1.x;
     this.y1 = v1.y;
