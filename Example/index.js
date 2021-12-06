@@ -16,6 +16,9 @@ class DemoGame {
 
     this.showFPS();
 
+    // 0: Load, 1: Play, 2: Finish
+    this.gameState = 0;
+
     this.game = new Engine(
       {
         onLoadCallback: this.onLoad.bind(this),
@@ -52,16 +55,21 @@ class DemoGame {
     this.game
       .setTimeout(titleText.destroySelf.bind(titleText), 2000)
       .then(() => {
+        this.gameState = 1;
+
         const rows = 10;
         const cols = 10;
 
-        for (let i = 0; i < rows; i += 1) {
-          for (let j = 0; j < cols; j += 1) {
+        for (let i = 1; i <= rows; i += 1) {
+          for (let j = 1; j <= cols; j += 1) {
+            const paddingHorizontal = window.innerWidth / rows;
+            const paddingVertical = window.innerHeight / cols;
+
             new Rectangle({
               tag: 'food',
               position: new Vector2(
-                (window.innerWidth / rows) + i * (window.innerWidth / rows),
-                (window.innerHeight / cols) + j * (window.innerHeight / cols),
+                i * ((window.innerWidth - paddingHorizontal) / rows),
+                j * ((window.innerHeight - paddingVertical) / cols),
               ),
               width: 20,
               height: 20,
@@ -78,7 +86,8 @@ class DemoGame {
           zIndex: 1,
         });
         this.player.grow = () => {
-          const growBy = 2;
+          const growBy = 1.5;
+
           this.player.width += growBy;
           this.player.height += growBy;
         };
@@ -90,19 +99,44 @@ class DemoGame {
       this.fpsCounter.text = `FPS: ${this.game.fps}`;
     }
 
-    if (this.player) {
+    // Check if game is playing
+    if (this.gameState === 1) {
       this.player.position = new Vector2(
         this.game.mouseX - this.player.width / 2,
         this.game.mouseY - this.player.height / 2,
       );
     }
 
-    this.game.objects.findAll('food').forEach((pieceOfFood) => {
+    const food = this.game.objects.findAll('food');
+
+    food.forEach((pieceOfFood) => {
       if (this.player.hasCollided(pieceOfFood)) {
         pieceOfFood.destroySelf();
         this.player.grow();
       }
     });
+
+    if (!food.length && this.gameState === 1) {
+      this.gameState = 2;
+    }
+
+    if (!food.length && this.gameState === 2) {
+      const completedText = new Text({
+        tag: 'completedText',
+        colour: 'purple',
+        backgroundColour: 'white',
+        fontSize: 50,
+        zIndex: 10,
+        text: 'Completed',
+        position: new Vector2(window.innerWidth / 2, window.innerHeight / 2),
+        height: 300,
+        width: 500,
+      });
+      completedText.position = new Vector2(
+        window.innerWidth / 2 - completedText.width / 2,
+        window.innerHeight / 2 - completedText.height / 2,
+      );
+    }
   }
 
   showFPS() {
