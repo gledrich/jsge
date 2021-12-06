@@ -41,4 +41,14 @@ export default class Engine {
     });
     timeoutFn();
   }
+
+  countdown(milliseconds, fn, onEnded) {
+    setTimeout(onEnded, milliseconds);
+
+    for (let i = 1; i <= milliseconds; i += 1) {
+      if (i % 1000 === 0) {
+        setTimeout(fn, i);
+      }
+    }
+  }
 }
