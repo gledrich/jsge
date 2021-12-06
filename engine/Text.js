@@ -6,9 +6,11 @@ export default class Text {
     tag = 'text',
     colour = 'black',
     backgroundColour,
-    fontSize = '25',
+    fontSize = '25', // px
     font = 'Arial',
     text = '',
+    horizontalAlign = 'center', // [left, right, center, start, end]
+    verticalAlign = 'middle', // [top, hanging, middle, alphabetic, ideographic, bottom]
     position = new Vector2(0, 0),
     zIndex = 0,
   }) {
@@ -21,6 +23,8 @@ export default class Text {
     this.zIndex = zIndex;
     this.length = text.length;
     this.position = position;
+    this.horizontalAlign = horizontalAlign;
+    this.verticalAlign = verticalAlign;
 
     Window.registerObject(this);
   }

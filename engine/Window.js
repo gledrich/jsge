@@ -103,8 +103,8 @@ export default class Window {
 
     this.#ctx.font = text.font;
     this.#ctx.fillStyle = text.colour;
-    this.#ctx.textAlign = 'center';
-    this.#ctx.textBaseline = 'middle';
+    this.#ctx.textAlign = text.horizontalAlign;
+    this.#ctx.textBaseline = text.verticalAlign;
     this.#ctx.fillText(text.text, (text.fontSize * text.length) / 2, (text.fontSize * 2) / 2);
   }
 
