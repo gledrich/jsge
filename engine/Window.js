@@ -45,7 +45,18 @@ export default class Window {
     window.requestAnimationFrame(this.#update.bind(this));
   }
 
-  #update() {
+  fps = 0;
+
+  #oldTimestamp = 0;
+
+  #secondsPassed;
+
+  #update(timestamp) {
+    this.#secondsPassed = (timestamp - this.#oldTimestamp) / 1000;
+    this.#oldTimestamp = timestamp;
+
+    this.fps = Math.round(1 / this.#secondsPassed);
+
     this.callback();
 
     this.#ctx.fillStyle = this.backgroundColour;

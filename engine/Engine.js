@@ -18,4 +18,8 @@ export default class Engine {
   get objects() {
     return Window.objects;
   }
+
+  get fps() {
+    return this.#window.fps;
+  }
 }
