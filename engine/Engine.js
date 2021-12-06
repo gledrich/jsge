@@ -31,6 +31,10 @@ export default class Engine {
     return this.timeout;
   }
 
+  set cursor(value) {
+    document.getElementById('canvas').style.cursor = value;
+  }
+
   async timeout(timeoutFn, time) {
     await new Promise((resolve) => {
       setTimeout(resolve, time);

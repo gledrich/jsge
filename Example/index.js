@@ -30,6 +30,8 @@ class DemoGame {
       },
     );
 
+    this.game.cursor = 'pointer';
+
     this.game.onLoad();
   }
 
@@ -101,6 +103,8 @@ class DemoGame {
 
     // Check if game is playing
     if (this.gameState === 1) {
+      this.game.cursor = 'none';
+
       this.player.position = new Vector2(
         this.game.mouseX - this.player.width / 2,
         this.game.mouseY - this.player.height / 2,
@@ -121,6 +125,8 @@ class DemoGame {
     }
 
     if (!food.length && this.gameState === 2) {
+      this.game.cursor = 'pointer';
+
       const completedText = new Text({
         tag: 'completedText',
         colour: 'white',
