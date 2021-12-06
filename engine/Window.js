@@ -145,14 +145,6 @@ export default class Window {
     }
   }
 
-  static get mouseX() {
-    return this.mouseX + this.#canvas.getBoundingClientRect().left;
-  }
-
-  static get mouseY() {
-    return this.mouseY + this.#canvas.getBoundingClientRect().top;
-  }
-
   static #sortSet() {
     const arr = Array.from(Window.objects);
     arr.sort((a, b) => a.zIndex > b.zIndex);
