@@ -1,0 +1,13 @@
+export default class Canvas {
+  constructor() {
+    this.canvas = document.createElement('canvas');
+    this.canvas.id = 'Canvas';
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+    this.canvas.style.zIndex = 0;
+    this.canvas.style.position = 'absolute';
+
+    // eslint-disable-next-line no-constructor-return
+    return this.canvas;
+  }
+}
