@@ -12,9 +12,15 @@ export default class Window {
 
   static objects = new Set();
 
-  constructor(callback, {
-    title = 'Example', width = '100%', height = '100%', backgroundColour = 'white',
-  } = {}) {
+  constructor(
+    callback,
+    {
+      title = 'Example',
+      width = '100%',
+      height = '100%',
+      backgroundColour = 'white',
+    } = {},
+  ) {
     Window.objects.findAll = this.#findAll.bind(this);
 
     this.title = document.createElement('title');
@@ -85,11 +91,21 @@ export default class Window {
   }
 
   #drawText(text) {
-    this.#ctx.fillStyle = 'white';
-    this.#ctx.fillRect(0, 0, 200, 100);
+    if (text.backgroundColour) {
+      this.#ctx.fillStyle = text.backgroundColour;
+      this.#ctx.fillRect(
+        text.position.x,
+        text.position.y,
+        text.fontSize * text.length,
+        text.fontSize * 2,
+      );
+    }
+
     this.#ctx.font = text.font;
     this.#ctx.fillStyle = text.colour;
-    this.#ctx.fillText(text.text, 10, 30);
+    this.#ctx.textAlign = 'center';
+    this.#ctx.textBaseline = 'middle';
+    this.#ctx.fillText(text.text, (text.fontSize * text.length) / 2, (text.fontSize * 2) / 2);
   }
 
   #drawLine(line) {
