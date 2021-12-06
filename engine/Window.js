@@ -9,11 +9,13 @@ export default class Window {
 
   #canvas;
 
-  static #objects = new Set();
+  static objects = new Set();
 
   constructor(callback, {
     title = 'Example', width = '100%', height = '100%', backgroundColour = 'white',
   } = {}) {
+    Window.objects.findAll = this.#findAll.bind(this);
+
     this.title = document.createElement('title');
     this.title.innerHTML = title;
     document.getElementsByTagName('head')[0].appendChild(this.title);
@@ -55,7 +57,7 @@ export default class Window {
   }
 
   static #sortSet() {
-    const arr = Array.from(Window.#objects);
+    const arr = Array.from(Window.objects);
     arr.sort((a, b) => a.zIndex > b.zIndex);
     return new Set(arr);
   }
@@ -88,6 +90,10 @@ export default class Window {
     );
   }
 
+  #findAll(tag = '') {
+    return Array.from(Window.objects).filter((obj) => obj.tag === tag);
+  }
+
   #mouseMove(event) {
     if (event) {
       this.mouseX = event.x;
@@ -104,10 +110,10 @@ export default class Window {
   }
 
   static registerObject(object) {
-    this.#objects.add(object);
+    this.objects.add(object);
   }
 
   static destroyObject(object) {
-    this.#objects.delete(object);
+    this.objects.delete(object);
   }
 }

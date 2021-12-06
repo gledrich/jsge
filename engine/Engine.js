@@ -14,4 +14,8 @@ export default class Engine {
   get mouseY() {
     return this.#window.mouseY;
   }
+
+  get objects() {
+    return Window.objects;
+  }
 }

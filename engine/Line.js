@@ -20,4 +20,8 @@ export default class Line {
 
     Window.registerObject(this);
   }
+
+  destroySelf() {
+    Window.destroyObject(this);
+  }
 }

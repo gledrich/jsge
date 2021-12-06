@@ -12,27 +12,30 @@ class DemoGame {
   #frames;
 
   constructor() {
-    this.food = [];
-
     for (let i = 0; i < 10; i += 1) {
       for (let j = 0; j < 10; j += 1) {
-        this.food.push(new Rectangle(
-          new Vector2(
-            i * (window.innerWidth / 10),
-            j * (window.innerHeight / 10),
-          ),
-          { width: 20, height: 20 },
-          'orange',
-        ));
+        new Rectangle(
+          {
+            tag: 'food',
+            position: new Vector2(
+              i * (window.innerWidth / 10),
+              j * (window.innerHeight / 10),
+            ),
+            width: 20,
+            height: 20,
+            colour: 'orange',
+          },
+        );
       }
     }
 
     this.player = new Rectangle(
-      new Vector2(10, 10),
-      { width: 50, height: 50 },
-      'red',
-      1,
+
+      {
+        position: new Vector2(10, 10), width: 50, height: 50, colour: 'red', zIndex: 1,
+      },
     );
+    this.player.grow = this.grow.bind(this);
 
     this.game = new Engine(this.update.bind(this), {
       title: 'Demo Game',
@@ -50,10 +53,16 @@ class DemoGame {
       this.game.mouseY - this.player.height / 2,
     );
 
-    this.food.forEach((pieceOfFood) => {
+    this.game.objects.findAll('food').forEach((pieceOfFood) => {
       if (this.player.hasCollided(pieceOfFood)) {
         pieceOfFood.destroySelf();
+        this.player.grow();
       }
     });
+  }
+
+  grow() {
+    this.player.width += 1;
+    this.player.height += 1;
   }
 }
