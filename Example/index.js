@@ -26,7 +26,7 @@ class DemoGame {
       },
       {
         title: 'Demo Game',
-        backgroundColour: 'black',
+        backgroundColour: '#A7DCCC',
       },
     );
 
@@ -38,8 +38,8 @@ class DemoGame {
 
     const titleText = new Text({
       tag: 'titleText',
-      colour: 'purple',
-      backgroundColour: 'white',
+      colour: 'white',
+      backgroundColour: '#43aa8b',
       fontSize: 50,
       zIndex: 10,
       text: 'Demo Game',
@@ -71,9 +71,9 @@ class DemoGame {
                 i * ((window.innerWidth - paddingHorizontal) / rows),
                 j * ((window.innerHeight - paddingVertical) / cols),
               ),
-              width: 20,
-              height: 20,
-              colour: 'orange',
+              width: 40,
+              height: 40,
+              colour: '#F3722C',
             });
           }
         }
@@ -82,7 +82,7 @@ class DemoGame {
           position: new Vector2(window.innerWidth / 2, window.innerHeight / 2),
           width: 50,
           height: 50,
-          colour: 'red',
+          colour: '#F94144',
           zIndex: 1,
         });
         this.player.grow = () => {
@@ -123,8 +123,8 @@ class DemoGame {
     if (!food.length && this.gameState === 2) {
       const completedText = new Text({
         tag: 'completedText',
-        colour: 'purple',
-        backgroundColour: 'white',
+        colour: 'white',
+        backgroundColour: '#43aa8b',
         fontSize: 50,
         zIndex: 10,
         text: 'Completed',
@@ -142,7 +142,7 @@ class DemoGame {
   showFPS() {
     this.fpsCounter = new Text({
       tag: 'fpsCounterText',
-      colour: 'white',
+      colour: '#577590',
       zIndex: 10,
       text: 'FPS: 0',
     });

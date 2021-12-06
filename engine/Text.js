@@ -7,7 +7,7 @@ export default class Text {
     colour = 'black',
     backgroundColour,
     fontSize = '25', // px
-    font = 'Arial',
+    font = 'Helvetica',
     text = '',
     horizontalAlign = 'center', // [left, right, center, start, end]
     verticalAlign = 'middle', // [top, hanging, middle, alphabetic, ideographic, bottom]
