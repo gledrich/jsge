@@ -4,6 +4,7 @@ import Engine from '../engine/Engine.js';
 import Rectangle from '../engine/Rectangle.js';
 import Vector2 from '../engine/Vector2.js';
 import Text from '../engine/Text.js';
+import Sprite from '../engine/Sprite.js';
 
 window.onload = () => {
   new DemoGame();
@@ -14,9 +15,9 @@ class DemoGame {
     window.showFPS = this.showFPS.bind(this);
     window.hideFPS = this.hideFPS.bind(this);
 
-    this.showFPS();
+    // this.showFPS();
 
-    // 0: Load, 1: Play, 2: Finish
+    // 0: Load, 1: Play, 2: Restart
     this.gameState = 0;
 
     this.game = new Engine(
@@ -72,6 +73,19 @@ class DemoGame {
 
   onLoad() {
     console.log('loaded game');
+
+    // const dinoImg = new Image();
+    // dinoImg.src = './Example/sprites/DinoSprites - doux.png';
+
+    // this.dinosaur = new Sprite({
+    //   img: dinoImg,
+    //   rows: 1,
+    //   cols: 24,
+    //   position: new Vector2(0, 0),
+    //   startCol: 20,
+    //   endCol: 24,
+    //   tag: 'dino',
+    // });
 
     if (this.gameState === 0) {
       const titleText = new Text({
@@ -172,6 +186,8 @@ class DemoGame {
       // hide mouse cursor
       this.game.cursor = 'none';
 
+      this.dinosaur.play();
+
       // center player around mouse pos
       this.player.position = new Vector2(
         this.game.mouseX - this.player.width / 2,
@@ -213,6 +229,7 @@ class DemoGame {
     this.completedText.destroySelf();
     this.restartText.destroySelf();
     this.player.destroySelf();
+    this.dinosaur.stop();
     this.onLoad();
   }
 

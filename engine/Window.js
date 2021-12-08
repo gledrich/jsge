@@ -2,6 +2,7 @@ import Canvas from './Canvas.js';
 import Text from './Text.js';
 import Line from './Line.js';
 import Rectangle from './Rectangle.js';
+import Sprite from './Sprite.js';
 
 export default class Window {
   #ctx;
@@ -92,6 +93,10 @@ export default class Window {
       if (object instanceof Rectangle) {
         this.#drawRectangle(object);
       }
+
+      if (object instanceof Sprite) {
+        this.#drawSprite(object);
+      }
     });
   }
 
@@ -134,6 +139,46 @@ export default class Window {
     );
   }
 
+  #drawSprite({
+    img,
+    cols,
+    frameWidth,
+    frameHeight,
+    position,
+    startCol,
+    endCol,
+    tag,
+  }) {
+    this.#ctx.imageSmoothingEnabled = true;
+    this.#ctx.imageSmoothingQuality = 'high';
+
+    const maxFrame = endCol - 1;
+
+    while (Window[tag] < startCol) {
+      Window[tag] += 1;
+    }
+
+    if (Window[tag] > maxFrame) {
+      Window[tag] = startCol;
+    }
+
+    // Update rows and columns
+    const column = Window[tag] % cols;
+    const row = Math.floor(Window[tag] / cols);
+
+    this.#ctx.drawImage(
+      img,
+      column * frameWidth,
+      row * frameHeight,
+      frameWidth,
+      frameHeight,
+      position.x,
+      position.y,
+      frameWidth * 3,
+      frameHeight * 3,
+    );
+  }
+
   #findAllObjects(tag = '') {
     return Array.from(Window.objects).filter((obj) => obj.tag === tag);
   }
@@ -152,10 +197,22 @@ export default class Window {
   }
 
   static registerObject(object) {
+    if (object instanceof Sprite) {
+      this[object.tag] = 0;
+
+      setInterval(() => {
+        this[object.tag] += 1;
+      }, 100);
+    }
+
     this.objects.add(object);
   }
 
   static destroyObject(object) {
+    if (object instanceof Sprite) {
+      delete Window[object.tag];
+    }
+
     this.objects.delete(object);
   }
 }
